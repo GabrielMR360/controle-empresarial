@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/usuarios")
@@ -23,5 +25,16 @@ public class UsuarioController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Usuario> buscar(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.buscar(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarTodos() {
+        return ResponseEntity.ok(usuarioService.listarTodos());
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        usuarioService.deletar(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

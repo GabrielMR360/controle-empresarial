@@ -1,14 +1,15 @@
 package br.com.controleempresarial.service;
 
-import br.com.controleempresarial.mapper.UsuarioMapper;
 import br.com.controleempresarial.dto.request.UsuarioPostRequestBody;
+import br.com.controleempresarial.mapper.UsuarioMapper;
 import br.com.controleempresarial.model.Usuario;
 import br.com.controleempresarial.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,14 @@ public class UsuarioService {
     public Usuario buscar(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario não encontrado"));
+    }
+
+    public List<Usuario> listarTodos() {
+        return (List<Usuario>) repository.findAll();
+    }
+
+    public void deletar(Long id) {
+        repository.deleteById(id);
     }
 
 }
