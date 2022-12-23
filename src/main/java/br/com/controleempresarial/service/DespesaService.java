@@ -1,16 +1,14 @@
 package br.com.controleempresarial.service;
 
 import br.com.controleempresarial.dto.request.DespesaPostRequestBody;
+import br.com.controleempresarial.exceptions.despesa.DespesaNaoExistenteException;
+import br.com.controleempresarial.exceptions.despesa.NotaFiscalExistenteException;
 import br.com.controleempresarial.mapper.DespesaMapper;
 import br.com.controleempresarial.model.Despesa;
-import br.com.controleempresarial.model.Usuario;
 import br.com.controleempresarial.repository.DespesaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,8 +21,7 @@ public class DespesaService {
 
     public Despesa cadastrar(DespesaPostRequestBody despesaRequest) {
         if (despesaRepository.existsByNumeroDaNotaFiscal(despesaRequest.getNumeroDaNotaFiscal()))
-            throw new IllegalArgumentException("Número da NF já existente");
-
+            throw new NotaFiscalExistenteException("Número da nota fiscal já existe");
         return despesaRepository.save(DespesaMapper.INSTANCE.toDespesa(despesaRequest));
     }
 
@@ -38,6 +35,8 @@ public class DespesaService {
     }
 
     public void deletar(Long id) {
+        if (!despesaRepository.existsById(id))
+            throw new DespesaNaoExistenteException("Id não encontrado");
         despesaRepository.deleteById(id);
     }
 

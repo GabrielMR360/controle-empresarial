@@ -30,10 +30,12 @@ public class UsuarioService {
     }
 
     public List<Usuario> listarTodos() {
-        return (List<Usuario>) repository.findAll();
+        return repository.findAll();
     }
 
     public void deletar(Long id) {
+        if (!repository.existsById(id))
+            throw new UsuarioNaoExistenteException("ID não encontrado");
         repository.deleteById(id);
     }
 

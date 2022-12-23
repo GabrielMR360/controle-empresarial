@@ -1,5 +1,7 @@
 package br.com.controleempresarial.handler;
 
+import br.com.controleempresarial.exceptions.despesa.DespesaNaoExistenteException;
+import br.com.controleempresarial.exceptions.despesa.NotaFiscalExistenteException;
 import br.com.controleempresarial.exceptions.usuario.CpfExistenteException;
 import br.com.controleempresarial.exceptions.usuario.UsuarioNaoExistenteException;
 import br.com.controleempresarial.exceptions.ExceptionDetails;
@@ -36,6 +38,34 @@ public class RestExceptionHandler {
                         .error(cpfExistenteException.getClass().getName())
                         .timestamp(LocalDateTime.now())
                         .build(), HttpStatus.CONFLICT
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionDetails> handlerNotaFiscalExistenteException(
+            NotaFiscalExistenteException nfe) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Conflict Exception")
+                        .details(nfe.getMessage())
+                        .status(HttpStatus.CONFLICT.value())
+                        .error(nfe.getClass().getName())
+                        .timestamp(LocalDateTime.now())
+                        .build(), HttpStatus.CONFLICT
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionDetails> handlerDespesaNaoExistenteException(
+            DespesaNaoExistenteException dne) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception")
+                        .details(dne.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(dne.getClass().getName())
+                        .timestamp(LocalDateTime.now())
+                        .build(), HttpStatus.BAD_REQUEST
         );
     }
 
