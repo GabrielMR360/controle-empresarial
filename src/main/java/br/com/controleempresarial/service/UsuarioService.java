@@ -7,9 +7,9 @@ import br.com.controleempresarial.mapper.UsuarioMapper;
 import br.com.controleempresarial.model.Usuario;
 import br.com.controleempresarial.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +29,8 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsuarioNaoExistenteException("Usuario não encontrado"));
     }
 
-    public List<Usuario> listarTodos() {
-        return repository.findAll();
+    public Page<Usuario> listarTodos(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public void deletar(Long id) {

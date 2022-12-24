@@ -9,12 +9,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-public class Usuario {
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,10 @@ public class Usuario {
     private String telefone;
     private String cpf;
     private String email;
+    private LocalDate dataDeContratacao;
     private String cep;
     private String logradouro;
-    private String numeroDaCasa;
+    private Integer numeroDaCasa;
     private String bairro;
     private String uf;
 

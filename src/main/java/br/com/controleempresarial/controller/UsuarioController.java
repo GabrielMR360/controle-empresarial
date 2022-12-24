@@ -31,8 +31,8 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarTodos() {
-        return ResponseEntity.ok(usuarioService.listarTodos());
+    public ResponseEntity<Page<Usuario>> listarTodos(Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.listarTodos(pageable));
     }
 
     @DeleteMapping(path = "/{id}")
