@@ -5,6 +5,8 @@ import br.com.controleempresarial.exceptions.despesa.NotaFiscalExistenteExceptio
 import br.com.controleempresarial.exceptions.usuario.CpfExistenteException;
 import br.com.controleempresarial.exceptions.usuario.UsuarioNaoExistenteException;
 import br.com.controleempresarial.exceptions.ExceptionDetails;
+import br.com.controleempresarial.exceptions.veiculo.PlacaExistenteException;
+import br.com.controleempresarial.exceptions.veiculo.VeiculoNaoExistenteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -64,6 +66,34 @@ public class RestExceptionHandler {
                         .details(dne.getMessage())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .error(dne.getClass().getName())
+                        .timestamp(LocalDateTime.now())
+                        .build(), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionDetails> handlerPlacaExistenteException(
+            PlacaExistenteException pe) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception")
+                        .details(pe.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(pe.getClass().getName())
+                        .timestamp(LocalDateTime.now())
+                        .build(), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionDetails> handlerVeiculoNaoExistenteException(
+            VeiculoNaoExistenteException vne) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception")
+                        .details(vne.getMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(vne.getClass().getName())
                         .timestamp(LocalDateTime.now())
                         .build(), HttpStatus.BAD_REQUEST
         );
