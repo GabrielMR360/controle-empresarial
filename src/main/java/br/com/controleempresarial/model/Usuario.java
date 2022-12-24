@@ -1,9 +1,6 @@
 package br.com.controleempresarial.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
@@ -23,10 +21,7 @@ public class Usuario {
     private String telefone;
     private String cpf;
     private String email;
-    private String cep;
-    private String logradouro;
-    private String numeroDaCasa;
-    private String bairro;
-    private String uf;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
 
 }

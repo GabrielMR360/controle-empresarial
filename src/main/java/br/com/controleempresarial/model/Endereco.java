@@ -6,25 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "funcionarios")
-public class Funcionario {
+@Table(name = "enderecos")
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
-    private String telefone;
-    private String cpf;
-    private String email;
-    private LocalDate dataDeContratacao;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Endereco endereco;
+    private String cep;
+    private String logradouro;
+    private String numeroDaCasa;
+    private String bairro;
+    private String uf;
 
 }

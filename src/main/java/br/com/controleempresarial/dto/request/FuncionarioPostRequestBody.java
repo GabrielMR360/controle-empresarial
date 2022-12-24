@@ -1,5 +1,6 @@
 package br.com.controleempresarial.dto.request;
 
+import br.com.controleempresarial.model.Endereco;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,10 +13,6 @@ public class FuncionarioPostRequestBody {
     private String cpf;
     private String email;
     private LocalDate dataDeContratacao;
-    private String cep;
-    private String logradouro;
-    private Integer numeroDaCasa;
-    private String bairro;
-    private String uf;
+    private Endereco endereco;
 
 }

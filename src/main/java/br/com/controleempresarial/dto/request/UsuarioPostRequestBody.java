@@ -1,5 +1,6 @@
 package br.com.controleempresarial.dto.request;
 
+import br.com.controleempresarial.model.Endereco;
 import lombok.Data;
 
 @Data
@@ -9,10 +10,6 @@ public class UsuarioPostRequestBody {
     private String telefone;
     private String cpf;
     private String email;
-    private String CEP;
-    private String logradouro;
-    private String numeroDaCasa;
-    private String bairro;
-    private String UF;
+    private Endereco endereco;
 
 }
