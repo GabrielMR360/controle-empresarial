@@ -24,8 +24,8 @@ public class Veiculo {
     private Tipo tipo;
     private String placa;
     private String marca;
-    private LocalDate anoFabricacao;
-    private LocalDate anoModelo;
+    private Integer anoFabricacao;
+    private Integer anoModelo;
     private LocalDate dataDaCompra;
     private Boolean ipvaVencido;
 

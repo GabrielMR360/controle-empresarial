@@ -27,6 +27,11 @@ public class VeiculoController {
         return ResponseEntity.ok(veiculoService.buscar(id));
     }
 
+    @GetMapping(path = "/ano-modelo={ano}")
+    public ResponseEntity<List<Veiculo>> listarTodosPeloAno(@PathVariable Integer ano) {
+        return ResponseEntity.ok(veiculoService.listarTodosPeloAno(ano));
+    }
+
     @GetMapping
     public ResponseEntity<List<Veiculo>> listarTodos() {
         return ResponseEntity.ok(veiculoService.listarTodos());

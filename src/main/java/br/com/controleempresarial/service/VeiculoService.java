@@ -39,4 +39,8 @@ public class VeiculoService {
 
         veiculoRepository.deleteById(id);
     }
+
+    public List<Veiculo> listarTodosPeloAno(Integer ano) {
+        return veiculoRepository.findAllByAnoModelo(ano);
+    }
 }
