@@ -1,10 +1,10 @@
 package br.com.controleempresarial.handler;
 
+import br.com.controleempresarial.exceptions.ExceptionDetails;
 import br.com.controleempresarial.exceptions.despesa.DespesaNaoExistenteException;
 import br.com.controleempresarial.exceptions.despesa.NotaFiscalExistenteException;
 import br.com.controleempresarial.exceptions.usuario.CpfExistenteException;
 import br.com.controleempresarial.exceptions.usuario.UsuarioNaoExistenteException;
-import br.com.controleempresarial.exceptions.ExceptionDetails;
 import br.com.controleempresarial.exceptions.veiculo.PlacaExistenteException;
 import br.com.controleempresarial.exceptions.veiculo.VeiculoNaoExistenteException;
 import org.springframework.http.HttpStatus;
@@ -12,91 +12,62 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class RestExceptionHandler {
+public class RestExceptionHandler extends HandlerDetails {
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerBadRequestException(UsuarioNaoExistenteException badRequestException) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Bad Request Exception")
-                        .details(badRequestException.getMessage())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .error(badRequestException.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.BAD_REQUEST
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(UsuarioNaoExistenteException usuarioNaoExistenteException) {
+        return super.handler(
+                usuarioNaoExistenteException,
+                "Bad Request Exception",
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerCpfExistenteException(CpfExistenteException cpfExistenteException) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Conflict Exception")
-                        .details(cpfExistenteException.getMessage())
-                        .status(HttpStatus.CONFLICT.value())
-                        .error(cpfExistenteException.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.CONFLICT
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(CpfExistenteException cpfExistenteException) {
+        return super.handler(
+                cpfExistenteException,
+                "Conflict Exception",
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerNotaFiscalExistenteException(
-            NotaFiscalExistenteException nfe) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Conflict Exception")
-                        .details(nfe.getMessage())
-                        .status(HttpStatus.CONFLICT.value())
-                        .error(nfe.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.CONFLICT
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(NotaFiscalExistenteException notaFiscalExistenteException) {
+        return super.handler(
+                notaFiscalExistenteException,
+                "Conflict Exception",
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerDespesaNaoExistenteException(
-            DespesaNaoExistenteException dne) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Bad Request Exception")
-                        .details(dne.getMessage())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .error(dne.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.BAD_REQUEST
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(DespesaNaoExistenteException despesaNaoExistenteException) {
+        return super.handler(
+                despesaNaoExistenteException,
+                "Bad Request Exception",
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerPlacaExistenteException(
-            PlacaExistenteException pe) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Bad Request Exception")
-                        .details(pe.getMessage())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .error(pe.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.BAD_REQUEST
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(PlacaExistenteException placaExistenteException) {
+        return super.handler(
+                placaExistenteException,
+                "Conflict Exception",
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionDetails> handlerVeiculoNaoExistenteException(
-            VeiculoNaoExistenteException vne) {
-        return new ResponseEntity<>(
-                ExceptionDetails.builder()
-                        .title("Bad Request Exception")
-                        .details(vne.getMessage())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .error(vne.getClass().getName())
-                        .timestamp(LocalDateTime.now())
-                        .build(), HttpStatus.BAD_REQUEST
-        );
+    public ResponseEntity<ExceptionDetails> exceptionHandler(VeiculoNaoExistenteException veiculoNaoExistenteException) {
+        return super.handler(
+                veiculoNaoExistenteException,
+                "Bad Request Exception",
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST);
     }
 
 }

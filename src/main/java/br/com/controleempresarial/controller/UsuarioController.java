@@ -2,7 +2,6 @@ package br.com.controleempresarial.controller;
 
 import br.com.controleempresarial.dto.request.UsuarioPostRequestBody;
 import br.com.controleempresarial.dto.response.UsuarioResponse;
-import br.com.controleempresarial.model.Usuario;
 import br.com.controleempresarial.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
