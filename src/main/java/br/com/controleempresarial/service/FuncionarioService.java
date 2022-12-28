@@ -1,6 +1,7 @@
 package br.com.controleempresarial.service;
 
 import br.com.controleempresarial.dto.request.FuncionarioPostRequestBody;
+import br.com.controleempresarial.dto.response.FuncionarioResponse;
 import br.com.controleempresarial.exceptions.usuario.UsuarioNaoExistenteException;
 import br.com.controleempresarial.mapper.FuncionarioMapper;
 import br.com.controleempresarial.model.Funcionario;
@@ -16,21 +17,28 @@ public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
 
-    public Funcionario cadastrar(FuncionarioPostRequestBody funcionarioRequest) {
+    public FuncionarioResponse cadastrar(FuncionarioPostRequestBody funcionarioRequest) {
         if (funcionarioRepository.existsByCpf(funcionarioRequest.getCpf()))
             throw new UsuarioNaoExistenteException("CPF já existente");
 
-        return funcionarioRepository.save(FuncionarioMapper.INSTANCE.toFuncionario(funcionarioRequest));
+        Funcionario funcionario = funcionarioRepository
+                .save(FuncionarioMapper.INSTANCE.toFuncionario(funcionarioRequest));
+
+        return FuncionarioResponse.toFuncionarioResponse(funcionario);
     }
 
-    public Funcionario buscar(Long id) {
+    public FuncionarioResponse buscar(Long id) {
         return funcionarioRepository.findById(id)
+                .map(funcionario -> FuncionarioResponse.toFuncionarioResponse(funcionario))
                 .orElseThrow(() -> new UsuarioNaoExistenteException("Funcionário não encontrado"));
     }
 
-
-    public List<Funcionario> listarTodos() {
-        return funcionarioRepository.findAll();
+    public List<FuncionarioResponse> listarTodos() {
+        return funcionarioRepository
+                .findAll()
+                .stream()
+                .map(resp -> FuncionarioResponse.toFuncionarioResponse(resp))
+                .toList();
     }
 
     public void deletar(Long id) {

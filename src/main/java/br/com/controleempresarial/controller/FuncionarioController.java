@@ -1,7 +1,7 @@
 package br.com.controleempresarial.controller;
 
 import br.com.controleempresarial.dto.request.FuncionarioPostRequestBody;
-import br.com.controleempresarial.model.Funcionario;
+import br.com.controleempresarial.dto.response.FuncionarioResponse;
 import br.com.controleempresarial.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,18 +17,19 @@ public class FuncionarioController {
 
     private final FuncionarioService funcionarioService;
 
+    // CriarFuncionarioRequest
     @PostMapping
-    public ResponseEntity<Funcionario> cadastrar(@RequestBody FuncionarioPostRequestBody funcionarioRequest) {
+    public ResponseEntity<FuncionarioResponse> cadastrar(@RequestBody FuncionarioPostRequestBody funcionarioRequest) {
         return new ResponseEntity<>(funcionarioService.cadastrar(funcionarioRequest), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Funcionario> buscar(@PathVariable Long id) {
+    public ResponseEntity<FuncionarioResponse> buscar(@PathVariable Long id) {
         return ResponseEntity.ok(funcionarioService.buscar(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Funcionario>> listarTodos() {
+    public ResponseEntity<List<FuncionarioResponse>> listarTodos() {
         return ResponseEntity.ok(funcionarioService.listarTodos());
     }
 

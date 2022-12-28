@@ -1,6 +1,7 @@
 package br.com.controleempresarial.service;
 
 import br.com.controleempresarial.dto.request.VeiculoPostRequestbody;
+import br.com.controleempresarial.dto.response.VeiculoResponse;
 import br.com.controleempresarial.exceptions.veiculo.PlacaExistenteException;
 import br.com.controleempresarial.exceptions.veiculo.VeiculoNaoExistenteException;
 import br.com.controleempresarial.mapper.VeiculoMapper;
@@ -17,20 +18,25 @@ public class VeiculoService {
 
     private final VeiculoRepository veiculoRepository;
 
-    public Veiculo cadastrar(VeiculoPostRequestbody veiculoRequest) {
+    public VeiculoResponse cadastrar(VeiculoPostRequestbody veiculoRequest) {
         if (veiculoRepository.existsByPlaca(veiculoRequest.getPlaca()))
             throw new PlacaExistenteException("Placa já existe");
 
-        return veiculoRepository.save(VeiculoMapper.INSTANCE.toVeiculo(veiculoRequest));
+        Veiculo veiculo = veiculoRepository.save(VeiculoMapper.INSTANCE.toVeiculo(veiculoRequest));
+        return VeiculoResponse.toVeiculoResponse(veiculo);
     }
 
-    public Veiculo buscar(Long id) {
+    public VeiculoResponse buscar(Long id) {
         return veiculoRepository.findById(id)
+                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo))
                 .orElseThrow(() -> new VeiculoNaoExistenteException("Veículo não encontrado"));
     }
 
-    public List<Veiculo> listarTodos() {
-        return veiculoRepository.findAll();
+    public List<VeiculoResponse> listarTodos() {
+        return veiculoRepository.findAll()
+                .stream()
+                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo))
+                .toList();
     }
 
     public void deletar(Long id) {
@@ -40,7 +46,10 @@ public class VeiculoService {
         veiculoRepository.deleteById(id);
     }
 
-    public List<Veiculo> listarTodosPeloAno(Integer ano) {
-        return veiculoRepository.findAllByAnoModelo(ano);
+    public List<VeiculoResponse> listarTodosPeloAno(Integer ano) {
+        return veiculoRepository.findAllByAnoModelo(ano)
+                .stream()
+                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo))
+                .toList();
     }
 }

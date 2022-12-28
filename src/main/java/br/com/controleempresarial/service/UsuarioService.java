@@ -1,6 +1,7 @@
 package br.com.controleempresarial.service;
 
 import br.com.controleempresarial.dto.request.UsuarioPostRequestBody;
+import br.com.controleempresarial.dto.response.UsuarioResponse;
 import br.com.controleempresarial.exceptions.usuario.CpfExistenteException;
 import br.com.controleempresarial.exceptions.usuario.UsuarioNaoExistenteException;
 import br.com.controleempresarial.mapper.UsuarioMapper;
@@ -17,20 +18,23 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
 
-    public Usuario cadastrar(UsuarioPostRequestBody usuarioRequest) {
+    public UsuarioResponse cadastrar(UsuarioPostRequestBody usuarioRequest) {
         if (repository.existsByCpf(usuarioRequest.getCpf()))
             throw new CpfExistenteException("CPF já existente");
 
-        return repository.save(UsuarioMapper.INSTANCE.toUsuario(usuarioRequest));
+        Usuario usuario = repository.save(UsuarioMapper.INSTANCE.toUsuario(usuarioRequest));
+        return UsuarioResponse.toUsuarioResponse(usuario);
     }
 
-    public Usuario buscar(Long id) {
+    public UsuarioResponse buscar(Long id) {
         return repository.findById(id)
+                .map(usuario -> UsuarioResponse.toUsuarioResponse(usuario))
                 .orElseThrow(() -> new UsuarioNaoExistenteException("Usuario não encontrado"));
     }
 
-    public Page<Usuario> listarTodos(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<UsuarioResponse> listarTodos(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(usuario -> UsuarioResponse.toUsuarioResponse(usuario));
     }
 
     public void deletar(Long id) {

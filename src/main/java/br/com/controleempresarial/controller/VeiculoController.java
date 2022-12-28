@@ -1,7 +1,7 @@
 package br.com.controleempresarial.controller;
 
 import br.com.controleempresarial.dto.request.VeiculoPostRequestbody;
-import br.com.controleempresarial.model.Veiculo;
+import br.com.controleempresarial.dto.response.VeiculoResponse;
 import br.com.controleempresarial.service.VeiculoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,22 +18,22 @@ public class VeiculoController {
     private final VeiculoService veiculoService;
 
     @PostMapping
-    public ResponseEntity<Veiculo> cadastrar(@RequestBody VeiculoPostRequestbody veiculoRequest) {
+    public ResponseEntity<VeiculoResponse> cadastrar(@RequestBody VeiculoPostRequestbody veiculoRequest) {
         return new ResponseEntity<>(veiculoService.cadastrar(veiculoRequest), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Veiculo> buscar(@PathVariable Long id) {
+    public ResponseEntity<VeiculoResponse> buscar(@PathVariable Long id) {
         return ResponseEntity.ok(veiculoService.buscar(id));
     }
 
     @GetMapping(path = "/ano-modelo={ano}")
-    public ResponseEntity<List<Veiculo>> listarTodosPeloAno(@PathVariable Integer ano) {
+    public ResponseEntity<List<VeiculoResponse>> listarTodosPeloAno(@PathVariable Integer ano) {
         return ResponseEntity.ok(veiculoService.listarTodosPeloAno(ano));
     }
 
     @GetMapping
-    public ResponseEntity<List<Veiculo>> listarTodos() {
+    public ResponseEntity<List<VeiculoResponse>> listarTodos() {
         return ResponseEntity.ok(veiculoService.listarTodos());
     }
 

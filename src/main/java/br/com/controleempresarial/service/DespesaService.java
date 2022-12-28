@@ -1,6 +1,7 @@
 package br.com.controleempresarial.service;
 
 import br.com.controleempresarial.dto.request.DespesaPostRequestBody;
+import br.com.controleempresarial.dto.response.DespesaResponse;
 import br.com.controleempresarial.exceptions.despesa.DespesaNaoExistenteException;
 import br.com.controleempresarial.exceptions.despesa.NotaFiscalExistenteException;
 import br.com.controleempresarial.mapper.DespesaMapper;
@@ -19,19 +20,25 @@ public class DespesaService {
 
     private final DespesaRepository despesaRepository;
 
-    public Despesa cadastrar(DespesaPostRequestBody despesaRequest) {
+    public DespesaResponse cadastrar(DespesaPostRequestBody despesaRequest) {
         if (despesaRepository.existsByNumeroDaNotaFiscal(despesaRequest.getNumeroDaNotaFiscal()))
             throw new NotaFiscalExistenteException("Número da nota fiscal já existe");
-        return despesaRepository.save(DespesaMapper.INSTANCE.toDespesa(despesaRequest));
+
+        Despesa despesa = despesaRepository.save(DespesaMapper.INSTANCE.toDespesa(despesaRequest));
+        return DespesaResponse.toDespesaResponse(despesa);
     }
 
-    public Despesa buscar(Long id) {
+    public DespesaResponse buscar(Long id) {
         return despesaRepository.findById(id)
+                .map(despesa -> DespesaResponse.toDespesaResponse(despesa))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Despesa não encontrada"));
     }
 
-    public List<Despesa> listarTodas() {
-        return despesaRepository.findAll();
+    public List<DespesaResponse> listarTodas() {
+        return despesaRepository.findAll()
+                .stream()
+                .map(despesa -> DespesaResponse.toDespesaResponse(despesa))
+                .toList();
     }
 
     public void deletar(Long id) {
