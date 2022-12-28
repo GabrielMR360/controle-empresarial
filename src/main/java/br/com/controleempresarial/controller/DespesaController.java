@@ -4,11 +4,12 @@ import br.com.controleempresarial.dto.request.DespesaPostRequestBody;
 import br.com.controleempresarial.dto.response.DespesaResponse;
 import br.com.controleempresarial.service.DespesaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,8 +29,8 @@ public class DespesaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DespesaResponse>> listarTodas() {
-        return ResponseEntity.ok(despesaService.listarTodas());
+    public ResponseEntity<Page<DespesaResponse>> listarTodas(@PageableDefault(size = 5) Pageable paginacao) {
+        return ResponseEntity.ok(despesaService.listarTodas(paginacao));
     }
 
     @DeleteMapping(path = "/{id}")

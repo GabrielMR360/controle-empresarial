@@ -8,9 +8,9 @@ import br.com.controleempresarial.mapper.VeiculoMapper;
 import br.com.controleempresarial.model.Veiculo;
 import br.com.controleempresarial.repository.VeiculoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,11 +32,8 @@ public class VeiculoService {
                 .orElseThrow(() -> new VeiculoNaoExistenteException("Veículo não encontrado"));
     }
 
-    public List<VeiculoResponse> listarTodos() {
-        return veiculoRepository.findAll()
-                .stream()
-                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo))
-                .toList();
+    public Page<VeiculoResponse> listarTodos(Pageable paginacao) {
+        return veiculoRepository.findAll(paginacao).map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo));
     }
 
     public void deletar(Long id) {
@@ -46,10 +43,9 @@ public class VeiculoService {
         veiculoRepository.deleteById(id);
     }
 
-    public List<VeiculoResponse> listarTodosPeloAno(Integer ano) {
-        return veiculoRepository.findAllByAnoModelo(ano)
-                .stream()
-                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo))
-                .toList();
+    public Page<VeiculoResponse> listarTodosPeloAno(Integer ano, Pageable paginacao) {
+        return veiculoRepository.findAllByAnoModelo(ano, paginacao)
+                .map(veiculo -> VeiculoResponse.toVeiculoResponse(veiculo));
     }
+
 }

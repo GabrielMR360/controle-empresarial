@@ -4,11 +4,12 @@ import br.com.controleempresarial.dto.request.VeiculoPostRequestbody;
 import br.com.controleempresarial.dto.response.VeiculoResponse;
 import br.com.controleempresarial.service.VeiculoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,13 +29,14 @@ public class VeiculoController {
     }
 
     @GetMapping(path = "/ano-modelo={ano}")
-    public ResponseEntity<List<VeiculoResponse>> listarTodosPeloAno(@PathVariable Integer ano) {
-        return ResponseEntity.ok(veiculoService.listarTodosPeloAno(ano));
+    public ResponseEntity<Page<VeiculoResponse>> listarTodosPeloAno(
+            @PageableDefault(size = 5) @PathVariable Integer ano, Pageable paginacao) {
+        return ResponseEntity.ok(veiculoService.listarTodosPeloAno(ano, paginacao));
     }
 
     @GetMapping
-    public ResponseEntity<List<VeiculoResponse>> listarTodos() {
-        return ResponseEntity.ok(veiculoService.listarTodos());
+    public ResponseEntity<Page<VeiculoResponse>> listarTodos(@PageableDefault(size = 5) Pageable paginacao) {
+        return ResponseEntity.ok(veiculoService.listarTodos(paginacao));
     }
 
     @DeleteMapping(path = "/{id}")

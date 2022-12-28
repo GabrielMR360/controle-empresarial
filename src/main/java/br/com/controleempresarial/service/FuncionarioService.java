@@ -7,9 +7,9 @@ import br.com.controleempresarial.mapper.FuncionarioMapper;
 import br.com.controleempresarial.model.Funcionario;
 import br.com.controleempresarial.repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +33,8 @@ public class FuncionarioService {
                 .orElseThrow(() -> new UsuarioNaoExistenteException("Funcionário não encontrado"));
     }
 
-    public List<FuncionarioResponse> listarTodos() {
-        return funcionarioRepository
-                .findAll()
-                .stream()
-                .map(resp -> FuncionarioResponse.toFuncionarioResponse(resp))
-                .toList();
+    public Page<FuncionarioResponse> listarTodos(Pageable paginacao) {
+        return funcionarioRepository.findAll(paginacao).map(resp -> FuncionarioResponse.toFuncionarioResponse(resp));
     }
 
     public void deletar(Long id) {

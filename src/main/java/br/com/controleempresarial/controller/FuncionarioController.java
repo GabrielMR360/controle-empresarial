@@ -4,11 +4,12 @@ import br.com.controleempresarial.dto.request.FuncionarioPostRequestBody;
 import br.com.controleempresarial.dto.response.FuncionarioResponse;
 import br.com.controleempresarial.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,8 +30,8 @@ public class FuncionarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FuncionarioResponse>> listarTodos() {
-        return ResponseEntity.ok(funcionarioService.listarTodos());
+    public ResponseEntity<Page<FuncionarioResponse>> listarTodos(@PageableDefault(size = 5, sort = "nome") Pageable paginacao) {
+        return ResponseEntity.ok(funcionarioService.listarTodos(paginacao));
     }
 
     @DeleteMapping(path = "/{id}")

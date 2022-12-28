@@ -8,6 +8,8 @@ import br.com.controleempresarial.mapper.DespesaMapper;
 import br.com.controleempresarial.model.Despesa;
 import br.com.controleempresarial.repository.DespesaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,11 +36,8 @@ public class DespesaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Despesa não encontrada"));
     }
 
-    public List<DespesaResponse> listarTodas() {
-        return despesaRepository.findAll()
-                .stream()
-                .map(despesa -> DespesaResponse.toDespesaResponse(despesa))
-                .toList();
+    public Page<DespesaResponse> listarTodas(Pageable paginacao) {
+        return despesaRepository.findAll(paginacao).map(despesa -> DespesaResponse.toDespesaResponse(despesa));
     }
 
     public void deletar(Long id) {

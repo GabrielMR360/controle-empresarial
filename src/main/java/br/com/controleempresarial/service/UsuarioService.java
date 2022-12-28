@@ -32,8 +32,8 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsuarioNaoExistenteException("Usuario não encontrado"));
     }
 
-    public Page<UsuarioResponse> listarTodos(Pageable pageable) {
-        return repository.findAll(pageable)
+    public Page<UsuarioResponse> listarTodos(Pageable paginacao) {
+        return repository.findAll(paginacao)
                 .map(usuario -> UsuarioResponse.toUsuarioResponse(usuario));
     }
 
